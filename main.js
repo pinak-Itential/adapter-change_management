@@ -194,38 +194,35 @@ healthcheck(callback) {
      let jsonData =[];
      this.connector.get((results, error) => {
          if(error){
-             return callback(results, error);
-         }
-         else if (hasBody(results)){
-             
+              return callback(results, error);
+          }
             try {
-                let tempData = JSON.stringify(results.body).result;
+                let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                 tempData.forEach(element =>{
-                    if(element.hasProperties('number') ){
+                    if(element.hasOwnProperty('number') ){
                         jsonData.push({'change_ticket_number':element.number});
                     }
-                    else if(element.hasProperties('sys_id') ){
+                    else if(element.hasOwnProperty('sys_id') ){
                               jsonData.push({'change_ticket_key':element.sys_id});
-                    }else if(element.hasProperties('active')){
-                         jsonData.push({'change_ticket_key':element.active});
+                   }else if(element.hasOwnProperty('active')){
+                         jsonData.push({'active':element.active});
                     }
-                    else if(element.hasProperties('priority')){
-                         jsonData.push({'change_ticket_key':element.priority});
+                    else if(element.hasOwnProperty('priority')){
+                         jsonData.push({'prority':element.priority});
                     }
-                    else if(element.hasProperties('description')){
-                         jsonData.push({'change_ticket_key':element.description});
+                    else if(element.hasOwnProperty('description')){
+                         jsonData.push({'description':element.description});
                     }
-                    else if(element.hasProperties('work_start')){
-                         jsonData.push({'change_ticket_key':element.work_start});
+                    else if(element.hasOwnProperty('work_start')){
+                         jsonData.push({'work_start':element.work_start});
                     }
-                    else if(element.hasProperties('work_end')){
-                         jsonData.push({'change_ticket_key':element.work_end});
+                    else if(element.hasOwnProperty('work_end')){
+                         jsonData.push({'work_end':element.work_end});
                     }
                 });
                 } catch (err) {
                 console.log(err);
                 }
-         }
          return callback(jsonData, error);
      });
  
@@ -251,36 +248,33 @@ healthcheck(callback) {
           if(error){
               return callback(results, error);
           }
-        else if (hasBody(results)){
-             
             try {
-                let tempData = JSON.stringify(results.body).result;
+                let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                 tempData.forEach(element =>{
-                    if(element.hasProperties('number') ){
+                    if(element.hasOwnProperty('number') ){
                         jsonData.push({'change_ticket_number':element.number});
                     }
-                    else if(element.hasProperties('sys_id') ){
+                    else if(element.hasOwnProperty('sys_id') ){
                               jsonData.push({'change_ticket_key':element.sys_id});
-                    }else if(element.hasProperties('active')){
-                         jsonData.push({'change_ticket_key':element.active});
+                   }else if(element.hasOwnProperty('active')){
+                         jsonData.push({'active':element.active});
                     }
-                    else if(element.hasProperties('priority')){
-                         jsonData.push({'change_ticket_key':element.priority});
+                    else if(element.hasOwnProperty('priority')){
+                         jsonData.push({'prority':element.priority});
                     }
-                    else if(element.hasProperties('description')){
-                         jsonData.push({'change_ticket_key':element.description});
+                    else if(element.hasOwnProperty('description')){
+                         jsonData.push({'description':element.description});
                     }
-                    else if(element.hasProperties('work_start')){
-                         jsonData.push({'change_ticket_key':element.work_start});
+                    else if(element.hasOwnProperty('work_start')){
+                         jsonData.push({'work_start':element.work_start});
                     }
-                    else if(element.hasProperties('work_end')){
-                         jsonData.push({'change_ticket_key':element.work_end});
+                    else if(element.hasOwnProperty('work_end')){
+                         jsonData.push({'work_end':element.work_end});
                     }
                 });
                 } catch (err) {
                 console.log(err);
                 }
-         }
          return callback(jsonData, error);
       });
   }
