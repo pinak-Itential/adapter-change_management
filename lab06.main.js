@@ -168,12 +168,6 @@ healthcheck(callback) {
   emitStatus(status) {
     this.emit(status, { id: this.id });
   }
-    /**
-    
-     */
-     hasBody(response){
-         return response.includes('body');
-     }
 
   /**
    * @memberof ServiceNowAdapter
@@ -191,43 +185,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     let jsonData =[];
-     this.connector.get((results, error) => {
-         if(error){
-             return callback(results, error);
-         }
-         else if (hasBody(results)){
-             
-            try {
-                let tempData = JSON.stringify(results.body).result;
-                tempData.forEach(element =>{
-                    if(element.hasProperties('number') ){
-                        jsonData.push({'change_ticket_number':element.number});
-                    }
-                    else if(element.hasProperties('sys_id') ){
-                              jsonData.push({'change_ticket_key':element.sys_id});
-                    }else if(element.hasProperties('active')){
-                         jsonData.push({'change_ticket_key':element.active});
-                    }
-                    else if(element.hasProperties('priority')){
-                         jsonData.push({'change_ticket_key':element.priority});
-                    }
-                    else if(element.hasProperties('description')){
-                         jsonData.push({'change_ticket_key':element.description});
-                    }
-                    else if(element.hasProperties('work_start')){
-                         jsonData.push({'change_ticket_key':element.work_start});
-                    }
-                    else if(element.hasProperties('work_end')){
-                         jsonData.push({'change_ticket_key':element.work_end});
-                    }
-                });
-                } catch (err) {
-                console.log(err);
-                }
-         }
-         return callback(jsonData, error);
-     });
+     this.connector.get((results, error) => callback(results, error));
  
   }
 
@@ -247,42 +205,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-      this.connector.post({ serviceNowTable: 'change_request' }, (results, error) => {
-          if(error){
-              return callback(results, error);
-          }
-        else if (hasBody(results)){
-             
-            try {
-                let tempData = JSON.stringify(results.body).result;
-                tempData.forEach(element =>{
-                    if(element.hasProperties('number') ){
-                        jsonData.push({'change_ticket_number':element.number});
-                    }
-                    else if(element.hasProperties('sys_id') ){
-                              jsonData.push({'change_ticket_key':element.sys_id});
-                    }else if(element.hasProperties('active')){
-                         jsonData.push({'change_ticket_key':element.active});
-                    }
-                    else if(element.hasProperties('priority')){
-                         jsonData.push({'change_ticket_key':element.priority});
-                    }
-                    else if(element.hasProperties('description')){
-                         jsonData.push({'change_ticket_key':element.description});
-                    }
-                    else if(element.hasProperties('work_start')){
-                         jsonData.push({'change_ticket_key':element.work_start});
-                    }
-                    else if(element.hasProperties('work_end')){
-                         jsonData.push({'change_ticket_key':element.work_end});
-                    }
-                });
-                } catch (err) {
-                console.log(err);
-                }
-         }
-         return callback(jsonData, error);
-      });
+      this.connector.post({ serviceNowTable: 'change_request' }, (results, error) => callback(results, error));
   }
 }
 
