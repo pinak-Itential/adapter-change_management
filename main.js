@@ -244,6 +244,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
+      let jsonData ={};
       this.connector.post({ serviceNowTable: 'change_request' }, (results, error) => {
           if(error){
               return callback(results, error);
@@ -252,24 +253,24 @@ healthcheck(callback) {
                 let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                 tempData.forEach(element =>{
                     if(element.hasOwnProperty('number') ){
-                        jsonData.push({'change_ticket_number':element.number});
+                        jsonData['change_ticket_number']=element.number;
                     }
                     else if(element.hasOwnProperty('sys_id') ){
-                              jsonData.push({'change_ticket_key':element.sys_id});
+                              jsonData['change_ticket_key']=element.sys_id;
                    }else if(element.hasOwnProperty('active')){
-                         jsonData.push({'active':element.active});
+                         jsonData['active']=element.active;
                     }
                     else if(element.hasOwnProperty('priority')){
-                         jsonData.push({'prority':element.priority});
+                         jsonData['prority']=element.priority;
                     }
                     else if(element.hasOwnProperty('description')){
-                         jsonData.push({'description':element.description});
+                         jsonData['description']=element.description
                     }
                     else if(element.hasOwnProperty('work_start')){
-                         jsonData.push({'work_start':element.work_start});
+                         jsonData['work_start']=element.work_start;
                     }
                     else if(element.hasOwnProperty('work_end')){
-                         jsonData.push({'work_end':element.work_end});
+                         jsonData['work_end']=element.work_end;
                     }
                 });
                 } catch (err) {
