@@ -30,32 +30,33 @@ function mainOnObject() {
   // You must write the arguments for get and post.
 
 
-  connector.get( (data, error) => {
+  /*connector.get( (results, error) => {
     if (error) {
       console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
     }
     let jsonData =[];
          try {
-                let tempData = JSON.parse(JSON.parse(JSON.stringify(data)).body).result;
+                let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
+                //console.log(tempData);
                 tempData.forEach(element =>{
                     if(element.hasOwnProperty('number') ){
                         jsonData.push({'change_ticket_number':element.number});
                     }
-                    else if(element.hasOwnProperty('sys_id') ){
+                     if(element.hasOwnProperty('sys_id') ){
                               jsonData.push({'change_ticket_key':element.sys_id});
-                   }else if(element.hasOwnProperty('active')){
+                   } if(element.hasOwnProperty('active')){
                          jsonData.push({'active':element.active});
                     }
-                    else if(element.hasOwnProperty('priority')){
+                     if(element.hasOwnProperty('priority')){
                          jsonData.push({'prority':element.priority});
                     }
-                    else if(element.hasOwnProperty('description')){
+                     if(element.hasOwnProperty('description')){
                          jsonData.push({'description':element.description});
                     }
-                    else if(element.hasOwnProperty('work_start')){
+                     if(element.hasOwnProperty('work_start')){
                          jsonData.push({'work_start':element.work_start});
                     }
-                    else if(element.hasOwnProperty('work_end')){
+                     if(element.hasOwnProperty('work_end')){
                          jsonData.push({'work_end':element.work_end});
                     }
                 });
@@ -63,8 +64,40 @@ function mainOnObject() {
                 console.log(err);
                 }
                 console.log(jsonData);
-  });
-  
+  });*/
+    connector.post({ serviceNowTable: 'change_request' }, (results, error) => {
+          if(error){
+              return callback(results, error);
+          }  let jsonData ={};
+            try {
+                let element = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
+               
+                    if(element.hasOwnProperty('number') ){
+                        jsonData['change_ticket_number']=element.number;
+                    }
+                     if(element.hasOwnProperty('sys_id') ){
+                              jsonData['change_ticket_key']=element.sys_id;
+                   } if(element.hasOwnProperty('active')){
+                         jsonData['active']=element.active;
+                    }
+                     if(element.hasOwnProperty('priority')){
+                         jsonData['prority']=element.priority;
+                    }
+                     if(element.hasOwnProperty('description')){
+                         jsonData['description']=element.description
+                    }
+                     if(element.hasOwnProperty('work_start')){
+                         jsonData['work_start']=element.work_start;
+                    }
+                     if(element.hasOwnProperty('work_end')){
+                         jsonData['work_end']=element.work_end;
+                    }
+       
+                } catch (err) {
+                console.log(err);
+                }
+   console.log(jsonData);
+      });
 }
 
 // Call mainOnObject to run it.
