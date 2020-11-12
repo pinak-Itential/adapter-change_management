@@ -168,13 +168,6 @@ healthcheck(callback) {
   emitStatus(status) {
     this.emit(status, { id: this.id });
   }
-    /**
-    
-     */
-     hasBody(response){
-         return response.includes('body');
-     }
-
   /**
    * @memberof ServiceNowAdapter
    * @method getRecord
@@ -191,11 +184,13 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     let jsonData =[];
+  
      this.connector.get((results, error) => {
          if(error){
               return callback(results, error);
           }
+     
+                 let jsonData =[];
             try {
                 let element = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                
@@ -224,6 +219,7 @@ healthcheck(callback) {
                 console.log(err);
                 }
          return callback(jsonData, error);
+       
      });
  
   }
@@ -244,11 +240,12 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-      let jsonData ={};
+     
       this.connector.post({ serviceNowTable: 'change_request' }, (results, error) => {
           if(error){
               return callback(results, error);
           }
+           let jsonData ={};
             try {
                 let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                 tempData.forEach(element =>{
