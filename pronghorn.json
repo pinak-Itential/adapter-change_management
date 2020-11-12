@@ -35,9 +35,9 @@
 },
 {
   "name": "postRecord",
-  "summary": "Post Change Tickets",
-  "description": "Post the first ServiceNow change management ticket.",
-  "input": {},
+  "summary": "post Change Tickets",
+  "description": "post the first ServiceNow change management ticket.",
+  "input": [],
   "output": {
     "name": "changeTickets",
     "type": "object",

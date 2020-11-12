@@ -101,7 +101,16 @@ function mainOnObject() {
                 } catch (err) {
                 console.log(err);
                 }
-   console.log(jsonData);
+                let sendData={
+                    'change_ticket_number':jsonData.change_ticket_number,
+                     'active':jsonData.active,
+                      'prority':jsonData.prority,
+                       'description':jsonData.description,
+                        'work_start':jsonData.work_start,
+                         'work_end':jsonData.work_end,
+                          'change_ticket_key':jsonData.change_ticket_key,
+                }
+   console.log(sendData);
       });
 }
 

@@ -190,34 +190,37 @@ healthcheck(callback) {
               return callback(results, error);
           }
      
-                 let jsonData =[];
-            try {
-                let element = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
-               
+             let jsonData =[];
+         try {
+                let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
+                //console.log(tempData);
+                tempData.forEach(element =>{
                     if(element.hasOwnProperty('number') ){
-                        jsonData['change_ticket_number']=element.number;
+                        jsonData[0]={'change_ticket_number':element.number};
                     }
-                     if(element.hasOwnProperty('sys_id') ){
-                              jsonData['change_ticket_key']=element.sys_id;
-                   } if(element.hasOwnProperty('active')){
-                         jsonData['active']=element.active;
+                     if(element.hasOwnProperty('active')){
+                         jsonData[1]={'active':element.active};
                     }
                      if(element.hasOwnProperty('priority')){
-                         jsonData['prority']=element.priority;
+                         jsonData[2]={'prority':element.priority};
                     }
                      if(element.hasOwnProperty('description')){
-                         jsonData['description']=element.description
+                         jsonData[3]={'description':element.description};
                     }
                      if(element.hasOwnProperty('work_start')){
-                         jsonData['work_start']=element.work_start;
+                         jsonData[4]={'work_start':element.work_start};
                     }
                      if(element.hasOwnProperty('work_end')){
-                         jsonData['work_end']=element.work_end;
+                         jsonData[5]={'work_end':element.work_end};
                     }
-       
+                     if(element.hasOwnProperty('sys_id') ){
+                              jsonData[6]={'change_ticket_key':element.sys_id};
+                   }
+                });
                 } catch (err) {
                 console.log(err);
                 }
+   
          return callback(jsonData, error);
        
      });
@@ -273,7 +276,16 @@ healthcheck(callback) {
                 } catch (err) {
                 console.log(err);
                 }
-         return callback(jsonData, error);
+                let sendData={
+                    'change_ticket_number':jsonData.change_ticket_number,
+                     'active':jsonData.active,
+                      'prority':jsonData.prority,
+                       'description':jsonData.description,
+                        'work_start':jsonData.work_start,
+                         'work_end':jsonData.work_end,
+                          'change_ticket_key':jsonData.change_ticket_key,
+                }
+         return callback(sendData, error);
       });
   }
 }
