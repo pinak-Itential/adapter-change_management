@@ -191,35 +191,46 @@ healthcheck(callback) {
           }
      
              let jsonData =[];
+             let data={};
          try {
                 let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
                 //console.log(tempData);
+                let objectAdd={};
                 tempData.forEach(element =>{
                     if(element.hasOwnProperty('number') ){
-                        jsonData[0]={'change_ticket_number':element.number};
-                    }
-                     if(element.hasOwnProperty('active')){
-                         jsonData[1]={'active':element.active};
-                    }
-                     if(element.hasOwnProperty('priority')){
-                         jsonData[2]={'prority':element.priority};
-                    }
-                     if(element.hasOwnProperty('description')){
-                         jsonData[3]={'description':element.description};
-                    }
-                     if(element.hasOwnProperty('work_start')){
-                         jsonData[4]={'work_start':element.work_start};
-                    }
-                     if(element.hasOwnProperty('work_end')){
-                         jsonData[5]={'work_end':element.work_end};
+                        data['change_ticket_number']=element.number;
                     }
                      if(element.hasOwnProperty('sys_id') ){
-                              jsonData[6]={'change_ticket_key':element.sys_id};
-                   }
+                              data['change_ticket_key']=element.sys_id;
+                   } if(element.hasOwnProperty('active')){
+                         data['active']=element.active;
+                    }
+                     if(element.hasOwnProperty('priority')){
+                         data['prority']=element.priority;
+                    }
+                     if(element.hasOwnProperty('description')){
+                         data['description']=element.description
+                    }
+                     if(element.hasOwnProperty('work_start')){
+                         data['work_start']=element.work_start;
+                    }
+                     if(element.hasOwnProperty('work_end')){
+                         data['work_end']=element.work_end;
+                    }
                 });
                 } catch (err) {
                 console.log(err);
+               }
+                let sendData={
+                    'change_ticket_number':data.change_ticket_number,
+                     'active':data.active,
+                      'prority':data.prority,
+                       'description':data.description,
+                        'work_start':data.work_start,
+                         'work_end':data.work_end,
+                          'change_ticket_key':data.change_ticket_key,
                 }
+                jsonData.push(sendData);
    
          return callback(jsonData, error);
        

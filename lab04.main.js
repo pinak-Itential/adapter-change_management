@@ -37,36 +37,48 @@ function mainOnObject() {
     if (error) {
       console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
     }
-    let jsonData =[];
-         try {
-                let tempData = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
-                //console.log(tempData);
-                tempData.forEach(element =>{
+     let jsonData =[];
+                let Data ={};
+            try {
+                let element = JSON.parse(JSON.parse(JSON.stringify(results)).body).result;
+      
                     if(element.hasOwnProperty('number') ){
-                        jsonData.push({'change_ticket_number':element.number});
+                        Data['change_ticket_number']=element.number;
                     }
                      if(element.hasOwnProperty('sys_id') ){
-                              jsonData.push({'change_ticket_key':element.sys_id});
+                              Data['change_ticket_key']=element.sys_id;
                    } if(element.hasOwnProperty('active')){
-                         jsonData.push({'active':element.active});
+                         Data['active']=element.active;
                     }
                      if(element.hasOwnProperty('priority')){
-                         jsonData.push({'prority':element.priority});
+                         Data['prority']=element.priority;
                     }
                      if(element.hasOwnProperty('description')){
-                         jsonData.push({'description':element.description});
+                         Data['description']=element.description
                     }
                      if(element.hasOwnProperty('work_start')){
-                         jsonData.push({'work_start':element.work_start});
+                         Data['work_start']=element.work_start;
                     }
                      if(element.hasOwnProperty('work_end')){
-                         jsonData.push({'work_end':element.work_end});
+                         Data['work_end']=element.work_end;
                     }
-                });
+        
                 } catch (err) {
                 console.log(err);
                 }
+                let sendData={
+                    'change_ticket_number':Data.change_ticket_number,
+                     'active':Data.active,
+                      'prority':Data.prority,
+                       'description':Data.description,
+                        'work_start':Data.work_start,
+                         'work_end':Data.work_end,
+                          'change_ticket_key':Data.change_ticket_key,
+                }
+                jsonData.push(sendData);
                 console.log(jsonData);
+                  console.log(sendData);
+                    console.log(Data);
   });
   
     connector.post({ serviceNowTable: 'change_request' }, (results, error) => {
